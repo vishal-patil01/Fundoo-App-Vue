@@ -1,0 +1,9 @@
+@import "~vue-material/src/components/MdAnimation/variables.scss";
+@import "~vue-material/src/theme/engine";
+
+@mixin flex-box {
+  display        : flex;
+  justify-content: center;
+  align-items    : center;
+  flex-wrap      : wrap;
+}
