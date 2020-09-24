@@ -9,6 +9,7 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import Routes from './Routes'
 
+
 Vue.config.productionTip = false
 Vue.use(VueMaterial)
 Vue.use(VueRouter)

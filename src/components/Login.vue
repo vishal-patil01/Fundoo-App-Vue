@@ -2,22 +2,38 @@
   <div class="Login-Container">
     <md-card>
       <md-card-header>
-        <div class="md-title">Fundoo</div>
+        <div class="md-title">
+          <img class="logo" src="../assets/fundoo-logo.jpg" />
+        </div>
         <p class="signin">Sign in</p>
-        <p class="header-description">Continue To Fundoo</p>
+        <p class="header-description">Use your Fundoo Account</p>
       </md-card-header>
       <md-card-content>
-        <div>
-          <input class="input-box" type="text" placeholder="Email address" />
+        <div class="custom-textfield">
+          <label class="pure-material-textfield-outlined">
+            <input
+              type="email"
+              placeholder=" "
+              name="email"
+              id="email"
+            />
+            <span class="md-error">The email is required</span>
+          </label>
+          <span>Email-Address</span>
         </div>
-        <div>
-          <input class="input-box" type="password" placeholder="Password" />
+        <div class="custom-textfield">
+          <label class="pure-material-textfield-outlined">
+            <input type="password" placeholder=" " />
+            <span>Password</span>
+            <i class="fa fa-eye icon" aria-hidden="true"></i>
+            <!--<i class="fa fa-eye-slash" aria-hidden="true"></i>-->
+          </label>
+          <span>Email-Address</span>
         </div>
         <div class="forget-password">
           <a href="#">Forget password</a>
         </div>
       </md-card-content>
-
       <md-card-actions>
         <md-button class="md-raised md-primary">Login</md-button>
       </md-card-actions>
@@ -41,12 +57,37 @@ export default {
 .Login-Container {
   @include flex-box;
   min-height: 100vh;
+  @include primary-font;
+}
+.custom-textfield {
+  @include textfield;
+  margin: 14px 20px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.custom-textfield i {
+  position: absolute;
+  width: -webkit-fill-available;
+  cursor: pointer;
+}
+
+.icon {
+  padding: 20px;
+  min-width: 50px;
+  text-align: right;
+  color: gray;
+}
+.logo {
+  height: 22px;
 }
 .md-card {
   align-self: center;
   min-height: 500px;
   width: 450px;
   border-radius: 5px;
+}
+.md-card-header {
+  padding: 34px 16px 12px 16px;
 }
 .md-title {
   color: rgb(237, 180, 21);
@@ -69,6 +110,7 @@ export default {
   font-weight: 400;
   letter-spacing: 0.1px;
   line-height: 1.5;
+  margin-bottom: 0;
 }
 .input-box {
   width: 90%;

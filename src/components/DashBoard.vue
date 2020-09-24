@@ -73,4 +73,7 @@ export default {
   color: white;
   z-index: 5;
 }
+.md-transparent{
+    background-color: rgb(237, 180, 21);
+}
 </style>
