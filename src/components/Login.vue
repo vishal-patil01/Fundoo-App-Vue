@@ -11,21 +11,26 @@
       <md-card-content>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
-            <input
-              type="email"
-              placeholder=" "
-              name="email"
-              id="email"
-            />
+            <input type="email" placeholder=" " name="email" id="email" />
             <span class="md-error">The email is required</span>
           </label>
           <span>Email-Address</span>
         </div>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
-            <input type="password" placeholder=" " />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder=" "
+            />
             <span>Password</span>
-            <i class="fa fa-eye icon" aria-hidden="true"></i>
+            <i
+              class="fa fa-eye icon"
+              aria-hidden="true"
+              id="visibilityIcon"
+              @click="togglePasswordVisibility()"
+            ></i>
             <!--<i class="fa fa-eye-slash" aria-hidden="true"></i>-->
           </label>
           <span>Email-Address</span>
@@ -46,6 +51,24 @@ export default {
   name: "Login",
   props: {
     msg: String,
+  },
+  methods: {
+    togglePasswordVisibility: function () {
+      const type =
+        document.querySelector("#password").getAttribute("type") === "password"
+          ? "text"
+          : "password";
+      document.querySelector("#password").setAttribute("type", type);
+      // toggle the eye slash icon
+      const iconClass =
+        document.querySelector("#visibilityIcon").getAttribute("class") ===
+        "fa fa-eye icon"
+          ? "fa fa-eye-slash icon"
+          : "fa fa-eye icon";
+      document
+        .querySelector("#visibilityIcon")
+        .setAttribute("class", iconClass);
+    },
   },
 };
 </script>
