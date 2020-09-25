@@ -126,9 +126,12 @@ export default {
   min-height: 100vh;
   @include primary-font;
 }
+.md-card-header + .md-card-content {
+  padding-top: 16px;
+}
 .custom-textfield {
   @include textfield;
-  margin: 14px 20px;
+  margin: 0 20px;
   margin-bottom: 10px;
   text-align: left;
 }
@@ -139,7 +142,7 @@ export default {
 }
 .custom-textfield > span {
   display: block;
-  padding: 10px 0;
+  padding: 8px 0;
 }
 .error {
   display: contents;
