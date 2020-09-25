@@ -7,11 +7,7 @@
       <span class="md-title">Fundoo App</span>
     </md-toolbar>
 
-    <md-drawer :md-active.sync="showNavigation" md-swipeable>
-      <md-toolbar class="md-transparent" md-elevation="0">
-        <span class="md-title">Fundoo App</span>
-      </md-toolbar>
-
+    <md-drawer :md-active.sync="showNavigation" md-swipeable  md-persistent="mini">
       <md-list>
         <md-list-item>
           <md-icon>move_to_inbox</md-icon>
@@ -46,6 +42,12 @@ export default {
     showNavigation: false,
     showSidepanel: false,
   }),
+  created(){
+    if(localStorage.getItem('userId')==undefined)
+    {
+      this.$router.push("/");
+    }
+  }
 };
 </script>
 

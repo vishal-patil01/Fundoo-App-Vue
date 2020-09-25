@@ -11,7 +11,8 @@
       <md-card-content>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
-            <input autofocus
+            <input
+              autofocus
               type="email"
               placeholder=" "
               @blur="
@@ -64,20 +65,24 @@
         </div>
       </md-card-content>
       <md-card-actions>
-        <a href="http://fundoonotes.incubation.bridgelabz.com"><b>Create account</b></a>
-        <md-button class="md-raised md-primary">Login</md-button>
+        <a href="http://fundoonotes.incubation.bridgelabz.com"
+          ><b>Create account</b></a
+        >
+        <md-button class="md-raised md-primary" @click="login()"
+          >Login</md-button
+        >
       </md-card-actions>
     </md-card>
   </div>
 </template>
 
 <script>
+import UserService from "../Services/UserService";
+
 export default {
   name: "Login",
-  props: {
-    msg: String,
-  },
   data: () => ({
+    cartID: "",
     email: "",
     password: "",
     emailError: false,
@@ -113,6 +118,23 @@ export default {
         this[field + "Error"] = true;
         this[field + "ErrorMsg"] = errorMsg;
       }
+    },
+    login: function () {
+      const loginData = {
+        cartID: this.cartID,
+        email: this.email,
+        password: this.password,
+      };
+      UserService
+        .userLoginService(loginData)
+        .then((response) => {
+          console.log(response);
+          localStorage.setItem('userId',response.data.userId)
+          this.$router.push("dashboard");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
