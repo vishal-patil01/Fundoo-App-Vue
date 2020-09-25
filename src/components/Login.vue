@@ -11,7 +11,7 @@
       <md-card-content>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
-            <input
+            <input autofocus
               type="email"
               placeholder=" "
               @blur="
@@ -64,6 +64,7 @@
         </div>
       </md-card-content>
       <md-card-actions>
+        <a href="http://fundoonotes.incubation.bridgelabz.com"><b>Create account</b></a>
         <md-button class="md-raised md-primary">Login</md-button>
       </md-card-actions>
     </md-card>
@@ -211,7 +212,8 @@ export default {
   font-weight: bold;
 }
 .md-card-actions {
-  justify-content: center;
+  justify-content: space-between;
+  margin: 0 32px;
 }
 .md-button {
   border-radius: 5px;
