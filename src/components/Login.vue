@@ -11,10 +11,22 @@
       <md-card-content>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
-            <input type="email" placeholder=" " name="email" id="email" />
-            <span class="md-error">The email is required</span>
+            <input
+              type="email"
+              placeholder=" "
+              @blur="
+                validatefield(
+                  '^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$',
+                  'Email Must Have Form abc@xyz.com form',
+                  'email'
+                )
+              "
+              v-model="email"
+              id="email"
+            />
+            <span>Email-Address</span>
           </label>
-          <span>Email-Address</span>
+          <span v-bind:class="{ error: emailError }">{{ emailErrorMsg }}</span>
         </div>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
@@ -23,17 +35,29 @@
               name="password"
               id="password"
               placeholder=" "
+              @blur="
+                validatefield(
+                  '^((?=[^@|#|&|%|$]*[@|&|#|%|$][^@|#|&|%|$]*$)*(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9#@$?]{8,})$',
+                  'Password Must Contains Symbol,Number,Characaters',
+                  'password'
+                )
+              "
+              v-model="password"
             />
             <span>Password</span>
-            <i
-              class="fa fa-eye icon"
-              aria-hidden="true"
-              id="visibilityIcon"
-              @click="togglePasswordVisibility()"
-            ></i>
-            <!--<i class="fa fa-eye-slash" aria-hidden="true"></i>-->
+            <div class="eyeicon">
+              <i
+                class="fa fa-eye icon"
+                aria-hidden="true"
+                id="visibilityIcon"
+                @click="togglePasswordVisibility()"
+              >
+              </i>
+            </div>
           </label>
-          <span>Email-Address</span>
+          <span v-bind:class="{ error: passwordError }">{{
+            passwordErrorMsg
+          }}</span>
         </div>
         <div class="forget-password">
           <a href="#">Forget password</a>
@@ -52,6 +76,14 @@ export default {
   props: {
     msg: String,
   },
+  data: () => ({
+    email: "",
+    password: "",
+    emailError: false,
+    passwordError: false,
+    emailErrorMsg: " ",
+    passwordErrorMsg: " ",
+  }),
   methods: {
     togglePasswordVisibility: function () {
       const type =
@@ -68,6 +100,18 @@ export default {
       document
         .querySelector("#visibilityIcon")
         .setAttribute("class", iconClass);
+    },
+    validatefield: function (pattern, errorMsg, field) {
+      if (this[field].trim() == "") {
+        this[field + "Error"] = true;
+        this[field + "ErrorMsg"] = field + " is Required.";
+      } else if (this[field].match(pattern)) {
+        this[field + "Error"] = false;
+        this[field + "ErrorMsg"] = " ";
+      } else {
+        this[field + "Error"] = true;
+        this[field + "ErrorMsg"] = errorMsg;
+      }
     },
   },
 };
@@ -88,17 +132,27 @@ export default {
   margin-bottom: 10px;
   text-align: left;
 }
-.custom-textfield i {
+.custom-textfield .eyeicon {
   position: absolute;
   width: -webkit-fill-available;
   cursor: pointer;
 }
-
+.custom-textfield > span {
+  display: block;
+  padding: 10px 0;
+}
+.error {
+  display: contents;
+  color: red;
+  margin-left: 5px;
+  padding: 0 !important;
+}
 .icon {
   padding: 20px;
   min-width: 50px;
   text-align: right;
   color: gray;
+  float: right;
 }
 .logo {
   height: 22px;
