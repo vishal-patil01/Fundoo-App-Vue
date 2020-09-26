@@ -12,7 +12,6 @@
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
             <input
-              autofocus
               type="email"
               placeholder=" "
               @blur="
@@ -72,10 +71,17 @@
           >Login</md-button
         >
       </md-card-actions>
-       <md-snackbar md-position='left' md-duration="3000" :md-active.sync="showSnackbar" md-persistent>
-      <span>Invalid Email or Password!</span>
-      <md-button class="md-primary" @click="showSnackbar = false">x</md-button>
-    </md-snackbar>
+      <md-snackbar
+        md-position="left"
+        md-duration="3000"
+        :md-active.sync="showSnackbar"
+        md-persistent
+      >
+        <span>Invalid Email or Password!</span>
+        <md-button class="md-primary" @click="showSnackbar = false"
+          >x</md-button
+        >
+      </md-snackbar>
     </md-card>
   </div>
 </template>
@@ -114,8 +120,7 @@ export default {
     },
     validatefield: function (pattern, errorMsg, field) {
       if (this[field].trim() == "") {
-        this[field + "Error"] = true;
-        this[field + "ErrorMsg"] = field + " is Required.";
+        this.requiredValidation(field);
       } else if (this[field].match(pattern)) {
         this[field + "Error"] = false;
         this[field + "ErrorMsg"] = " ";
@@ -124,25 +129,35 @@ export default {
         this[field + "ErrorMsg"] = errorMsg;
       }
     },
+    requiredValidation: function (field) {
+      if (this[field].trim() == "") {
+        this[field + "Error"] = true;
+        this[field + "ErrorMsg"] = field + " is Required.";
+        return false;
+      } else {
+        return true;
+      }
+    },
     login: function () {
-      const loginData = {
-        cartID: this.cartID,
-        email: this.email,
-        password: this.password,
-      };
-      UserService
-        .userLoginService(loginData)
-        .then((response) => {
-          console.log(response)
-         if(response.status=='200'){
-          localStorage.setItem('userId',response.data.userId)
-          this.$router.push("dashboard");
-         }
-        })
-        .catch((error) => {
-          this.showSnackbar=true;
-          console.log(error);
-        });
+      if (this.requiredValidation("email") && this.requiredValidation("password")) {
+        const loginData = {
+          cartID: this.cartID,
+          email: this.email,
+          password: this.password,
+        };
+        UserService.userLoginService(loginData)
+          .then((response) => {
+            console.log(response);
+            if (response.status == "200") {
+              localStorage.setItem("userId", response.data.userId);
+              this.$router.push("dashboard");
+            }
+          })
+          .catch((error) => {
+            this.showSnackbar = true;
+            console.log(error);
+          });
+      }
     },
   },
 };
