@@ -147,7 +147,7 @@ export default {
   position: relative;
   border: 1px solid rgba(#000, 0.12);
   background-color: white;
-  min-height: 100vw;
+  height: 100vh;
 }
 
 .main-content-area {
@@ -208,8 +208,11 @@ export default {
 }
 .md-drawer.md-theme-default.md-persistent-mini.md-left {
   width: 280px;
-  height: 100vw;
+  height: 90vh;
   margin-top: 1px;
+}
+.md-drawer{
+    height: 90vh;
 }
 .md-title {
   color: rgb(0, 0, 0) !important;
@@ -221,11 +224,13 @@ img {
   height: 34px;
   padding: 0 5px;
 }
-.md-list-item:hover{
-}
 .md-active .md-list-item:hover {
   background-color: rgb(223,223,223);
   border-radius: 0 20px 20px 0px !important;
+}
+.md-list-item :hover {
+  background-color: rgb(223,223,223);
+  border-radius: 30px;
 }
 .md-list-item {
   margin: 3px 0;
