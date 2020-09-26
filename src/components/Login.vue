@@ -72,6 +72,10 @@
           >Login</md-button
         >
       </md-card-actions>
+       <md-snackbar md-position='left' md-duration="3000" :md-active.sync="showSnackbar" md-persistent>
+      <span>Invalid Email or Password!</span>
+      <md-button class="md-primary" @click="showSnackbar = false">x</md-button>
+    </md-snackbar>
     </md-card>
   </div>
 </template>
@@ -89,6 +93,7 @@ export default {
     passwordError: false,
     emailErrorMsg: " ",
     passwordErrorMsg: " ",
+    showSnackbar: false,
   }),
   methods: {
     togglePasswordVisibility: function () {
@@ -128,11 +133,14 @@ export default {
       UserService
         .userLoginService(loginData)
         .then((response) => {
-          console.log(response);
+          console.log(response)
+         if(response.status=='200'){
           localStorage.setItem('userId',response.data.userId)
           this.$router.push("dashboard");
+         }
         })
         .catch((error) => {
+          this.showSnackbar=true;
           console.log(error);
         });
     },
