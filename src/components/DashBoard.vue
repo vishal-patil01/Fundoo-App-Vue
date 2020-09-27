@@ -129,15 +129,21 @@
           </router-link>
         </md-list>
       </md-app-drawer>
-
-      <md-app-content> Lorem ipsum dolor sit amet, </md-app-content>
+      <md-app-content class="content-area">
+        <CreateNote />
+      </md-app-content>
     </md-app>
   </div>
 </template>
 
 <script>
+import CreateNote from "./CreateNote";
 export default {
-  name: "PersistentMini",
+  name: "DashBoard",
+  components: {
+    CreateNote,
+  },
+
   data: () => ({
     menuVisible: false,
     searchText: "",
@@ -152,6 +158,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/style.scss";
 .md-app {
   height: 100vh;
   border: 1px solid rgba(#000, 0.12);
@@ -189,7 +196,7 @@ img {
 }
 //menu icon button
 .md-icon-button {
-    margin: 0;
+  margin: 0;
 }
 //seperating two list item with margin
 li {
@@ -254,6 +261,10 @@ ul > :not(.router-link-active) :hover {
   -webkit-text-fill-color: rgb(95, 99, 104) !important;
 }
 
+.content-area {
+  @include flex-box;
+  align-items: flex-start;
+}
 //stop clipped drawer moving down below width 600px
 @media (min-width: 0) {
   .md-drawer.md-permanent {
@@ -269,7 +280,7 @@ ul > :not(.router-link-active) :hover {
   //App icon
   img {
     width: 30px;
-    height: 25px;
+    height: 30px;
     padding: 0;
   }
 }
