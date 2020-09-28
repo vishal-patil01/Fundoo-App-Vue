@@ -13,7 +13,7 @@ export default {
 <style scoped>
 .color-palette {
   cursor: pointer;
-  margin-left: 5px;
+   margin: 5px;
 }
 .md-icon:hover{
     color: black;

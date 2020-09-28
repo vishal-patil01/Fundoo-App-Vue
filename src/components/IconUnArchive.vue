@@ -1,6 +1,6 @@
 <template>
-  <div class="archive" @click="moveToArchieve()">
-    <md-icon>archive</md-icon>
+  <div class="archive" @click="moveToNotes()">
+    <md-icon>unarchive</md-icon>
   </div>
 </template>
 
@@ -14,9 +14,9 @@ export default {
     cartId: String,
   },
   methods: {
-    moveToArchieve: function () {
+    moveToNotes: function () {
       const trashData = {
-        isArchived: true,
+        isArchived: false,
         noteIdList: [this.$props.cartId],
       };
       NoteService.moveToArchive(trashData)

@@ -33,10 +33,8 @@ export default {
 
 <style scoped>
 .delete {
-  display: flex;
   cursor: pointer;
-  flex-direction: column;
-  width: 10%;
+  margin: 5px;
 }
 .md-icon:hover {
   color: black;

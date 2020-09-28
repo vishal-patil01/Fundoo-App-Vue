@@ -15,7 +15,10 @@
             <div class="notebook-icons">
               <IconColorPalette :cartId="note.id" />
             </div>
-            <div class="notebook-icons" >
+             <div v-if="archive" class="notebook-icons">
+              <IconUnArchive :cartId="note.id" />
+            </div>
+            <div v-if="!archive" class="notebook-icons" >
               <IconArchive :cartId="note.id"/>
             </div>
             <div class="notebook-icons">
@@ -31,15 +34,18 @@
 <script>
 import IconColorPalette from "./IconColorPalette";
 import IconArchive from "./IconArchive";
+import IconUnArchive from "./IconUnArchive";
 import IconTrash from "./IconTrash";
 
 export default {
    props: {
     notes :Array,
+    archive:String,
   },
   components: {
     IconColorPalette,
     IconArchive,
+    IconUnArchive,
     IconTrash,
   },
 };

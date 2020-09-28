@@ -1,11 +1,12 @@
 <template>
   <div class="container">
-    <DisplayNotes :notes="noteList" />
+    <DisplayNotes :notes="noteList" archive="true" />
   </div>
 </template>
 <script>
 import NoteService from "../Services/NoteService";
 import DisplayNotes from "./DisplayNotes";
+import { bus } from "../main";
 
 export default {
   name: "Notes",
@@ -33,6 +34,11 @@ export default {
   mounted() {
     this.getArchivedNotes();
   },
+  created(){
+    bus.$on("updateNoteList", () => {
+      this.getArchivedNotes();
+    });
+  }
 };
 </script>
 <style scoped>

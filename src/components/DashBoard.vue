@@ -90,7 +90,7 @@
             </md-list-item>
           </router-link>
 
-          <router-link to="trash" exact>
+          <router-link to="trash">
             <md-list-item id="trash">
               <md-icon
                 ><svg
@@ -299,6 +299,9 @@ ul > :not(.router-link-active) :hover {
     width: 30px;
     height: 30px;
     padding: 0;
+  }
+  .content-area {
+    align-items: center;
   }
 }
 </style>
