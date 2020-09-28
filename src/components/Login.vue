@@ -30,7 +30,7 @@
             />
             <span>Email-Address</span>
           </label>
-          <span v-bind:class="{ error: emailError }">{{ emailErrorMsg }}</span>
+          <span v-bind:class="{ error: emailError}">{{ emailErrorMsg }}</span>
         </div>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
@@ -200,8 +200,12 @@ export default {
   display: block;
   padding: 8px 0;
 }
+.custom-textfield > span{
+display: inline-block !important;
+}
 .error {
-  display: contents;
+display: inline-block !important;
+
   color: red;
   margin-left: 5px;
   padding: 0 !important;
