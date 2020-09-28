@@ -26,14 +26,15 @@
         </div>
       </md-app-toolbar>
       <md-app-drawer
+        class="drawer"
         :md-active.sync="menuVisible"
         md-swipeable
         md-persistent="mini"
         md-permanent="clipped"
       >
         <md-list>
-          <router-link to="#home" exact="">
-            <md-list-item id="Notes" @click="getNotes()">
+          <router-link to="note" exact>
+            <md-list-item id="Notes">
               <md-icon
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +52,7 @@
             </md-list-item>
           </router-link>
 
-          <router-link to="#reminders" exact="">
+          <router-link to="reminders" exact>
             <md-list-item id="Reminders">
               <md-icon
                 ><svg
@@ -70,7 +71,7 @@
             </md-list-item>
           </router-link>
 
-          <router-link to="#edit" exact="">
+          <router-link to="edit" exact>
             <md-list-item id="edit">
               <md-icon>
                 <svg
@@ -89,8 +90,8 @@
             </md-list-item>
           </router-link>
 
-          <router-link to="#trash" exact="">
-            <md-list-item id="trash" @click="getTrashedNotes()">
+          <router-link to="trash" exact>
+            <md-list-item id="trash">
               <md-icon
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -108,8 +109,8 @@
             </md-list-item>
           </router-link>
 
-          <router-link to="#archive" exact="">
-            <md-list-item id="archive" @click="getArchivedNotes()">
+          <router-link to="archive" exact>
+            <md-list-item id="archive">
               <md-icon
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -130,104 +131,26 @@
         </md-list>
       </md-app-drawer>
       <md-app-content class="content-area">
-        <div id="create-note">
-          <CreateNote />
-        </div>
-        <md-progress-spinner
-          :class="{ spinner: isDataLoaded }"
-          :md-stroke="3"
-          md-mode="indeterminate"
-        />
-        <div class="component" id="Note-Component">
-          <Notes />
-        </div>
+        <router-view />
       </md-app-content>
     </md-app>
   </div>
 </template>
 
 <script>
-import CreateNote from "./CreateNote";
-import Notes from "./Notes";
-import { bus } from "../main";
-import UserService from "../Services/UserService";
-
 export default {
   name: "DashBoard",
-  components: {
-    CreateNote,
-    Notes,
-  },
+  components: {},
 
   data: () => ({
     menuVisible: false,
     searchText: "",
     searchData: [],
-    noteList: [],
-    trashedNotes: [],
-    archivedNotes: [],
     isDataLoaded: false,
   }),
-  methods: {
-    getNotes: function () {
-      this.isDataLoaded = false;
-      document.getElementById("Note-Component").style.display = "none";
-      UserService.fetchNotesList()
-        .then((response) => {
-          this.noteList = response.data.data.data;
-          this.noteList = this.noteList.filter(
-            (el) => el.isArchived == false && el.isDeleted == false
-          );
-          console.log(this.noteList);
-          bus.$emit("noteListChanged", this.noteList);
-          document.getElementById("create-note").style.display = "flex";
-          this.isDataLoaded = true;
-          document.getElementById("Note-Component").style.display = "flex";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getArchivedNotes: function () {
-      this.isDataLoaded = false;
-      document.getElementById("Note-Component").style.display = "none";
-      UserService.fetchArchivedNotesList()
-        .then((response) => {
-          this.archivedNotes = response.data.data.data;
-          bus.$emit("noteListChanged", response.data.data.data);
-          document.getElementById("create-note").style.display = "none";
-          this.isDataLoaded = true;
-          document.getElementById("Note-Component").style.display = "flex";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getTrashedNotes: function () {
-      this.isDataLoaded = false;
-      document.getElementById("Note-Component").style.display = "none";
-      UserService.fetchTrashedNotesList()
-        .then((response) => {
-          this.trashedNotes = response.data.data.data;
-          bus.$emit("noteListChanged", response.data.data.data);
-          document.getElementById("create-note").style.display = "none";
-          this.isDataLoaded = true;
-          document.getElementById("Note-Component").style.display = "flex";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    filterNotes: function () {},
-  },
+  methods: {},
   created() {
     if (localStorage.getItem("token") == undefined) this.$router.push("/");
-  },
-
-  mounted() {
-    if (this.$router.currentRoute.path == "/dashboard")
-      this.$router.push("/dashboard#home");
-    this.getNotes();
   },
 };
 </script>
@@ -243,10 +166,14 @@ export default {
 }
 // drawer
 .md-drawer {
-  width: 230px;
+  width: 280px;
   max-width: calc(100vw - 125px);
   vertical-align: top;
   align-items: flex-start;
+  border: none;
+}
+.md-app > .md-app-drawer {
+  border: none !important;
 }
 //app bar background
 .md-toolbar.md-theme-default.md-primary {
@@ -342,6 +269,7 @@ ul > :not(.router-link-active) :hover {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
+  overflow: hidden;
 }
 //component div
 .component {

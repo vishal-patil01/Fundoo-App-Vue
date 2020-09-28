@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "ColorPalette",
+  name: "IconColorPalette",
 };
 </script>
 
@@ -14,5 +14,8 @@ export default {
 .color-palette {
   cursor: pointer;
   margin-left: 5px;
+}
+.md-icon:hover{
+    color: black;
 }
 </style> 

@@ -1,8 +1,10 @@
 <template>
   <div class="container">
     <div class="create-note">
-      <div @click="createNote()">
-        <md-card id="title"> Take a note...</md-card>
+      <div class="take-note" @click="createNote()">
+        <div>
+          <md-card id="title"> Take a note...</md-card>
+        </div>
       </div>
       <div class="note-container">
         <md-card id="new-note">
@@ -18,8 +20,8 @@
           </md-field>
           <div class="utility-icons">
             <span>
-              <ColorPalette />
-              <Archive />
+              <IconColorPalette />
+              <IconArchive />
             </span>
             <button @click="closeCreateNote()">Close</button>
           </div>
@@ -30,18 +32,20 @@
 </template>
 
 <script>
-import ColorPalette from "./ColorPalette";
-import Archive from "./Archive";
 import UserService from "../Services/UserService";
+import IconColorPalette from "./IconColorPalette";
+import IconArchive from "./IconArchive";
+import { bus } from "../main";
 
 export default {
   components: {
-    ColorPalette,
-    Archive,
+    IconColorPalette,
+    IconArchive,
   },
   data: () => ({
     noteTitle: "",
     noteData: "",
+    noteList: [],
   }),
   methods: {
     createNote: function () {
@@ -53,15 +57,18 @@ export default {
         title: this.noteTitle,
         description: this.noteData,
       };
-      UserService.addNote(note)
-        .then((response) => {
-          console.log(response);
-          this.title = "";
-          this.description = "";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (note.title.trim() != "" || note.description.trim() != "") {
+        UserService.addNote(note)
+          .then((response) => {
+            console.log(response);
+            this.title = "";
+            this.description = "";
+            bus.$emit("updateNoteList");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
       document.getElementById("new-note").style.display = "none";
       document.getElementById("title").style.display = "flex";
     },
@@ -75,6 +82,7 @@ export default {
   @include flex-box;
   flex-direction: column;
   margin: 10px 5px;
+  width: -webkit-fill-available;
 }
 
 .create-note {
@@ -83,8 +91,7 @@ export default {
   padding: 7px;
   justify-content: center;
   cursor: text;
-  box-shadow: 0 4px 4px 0 rgba(196, 196, 196, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 1px 6px 0 rgb(146, 144, 144);
   transition: 0.3s;
   font-size: 18px;
   color: grey;
@@ -102,6 +109,13 @@ export default {
   padding: 0;
   font-size: 16px;
   font-family: "Google Sans", Roboto, Arial, sans-serif;
+}
+.take-note {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  opacity: 0.6;
 }
 
 #new-note {
@@ -121,6 +135,7 @@ export default {
   cursor: pointer;
   background-color: transparent;
   padding: 5px;
+  justify-content: center;
 }
 .md-field:after,
 .md-field:before {

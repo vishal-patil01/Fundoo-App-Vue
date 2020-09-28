@@ -30,7 +30,7 @@
             />
             <span>Email-Address</span>
           </label>
-          <span v-bind:class="{ error: emailError}">{{ emailErrorMsg }}</span>
+          <span v-bind:class="{ error: emailError }">{{ emailErrorMsg }}</span>
         </div>
         <div class="custom-textfield">
           <label class="pure-material-textfield-outlined">
@@ -62,9 +62,6 @@
           <span v-bind:class="{ error: passwordError }">{{
             passwordErrorMsg
           }}</span>
-        </div>
-        <div class="forget-password">
-          <a href="#">Forget password</a>
         </div>
       </md-card-content>
       <md-card-actions>
@@ -159,7 +156,7 @@ export default {
             this.isDataLoaded = true;
             if (response.status == "200") {
               localStorage.setItem("token", response.data.id);
-              this.$router.push("dashboard#home");
+              this.$router.push("dashboard");
             }
           })
           .catch((error) => {
@@ -187,8 +184,7 @@ export default {
 }
 .custom-textfield {
   @include textfield;
-  margin: 0 20px;
-  margin-bottom: 10px;
+  margin: 15px 20px;
   text-align: left;
 }
 .custom-textfield .eyeicon {
@@ -200,12 +196,11 @@ export default {
   display: block;
   padding: 8px 0;
 }
-.custom-textfield > span{
-display: inline-block !important;
+.custom-textfield > span {
+  display: inline-block;
 }
 .error {
-display: inline-block !important;
-
+  display: inline-block;
   color: red;
   margin-left: 5px;
   padding: 0 !important;
@@ -261,14 +256,8 @@ display: inline-block !important;
   font-size: 16px;
   border-color: #1a73e8;
 }
-
-.forget-password {
-  text-align: left;
-  margin: 0 0;
-}
-.forget-password > a {
-  padding: 0 25px;
-  font-weight: bold;
+.md-card-content {
+   padding: 0 16px; 
 }
 .md-card-actions {
   justify-content: space-between;
