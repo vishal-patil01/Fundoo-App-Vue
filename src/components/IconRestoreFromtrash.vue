@@ -1,6 +1,6 @@
 <template>
-  <div class="archive" @click="moveToNotes()">
-    <md-icon>unarchive</md-icon>
+  <div class="delete" @click="moveToNotes()">
+    <md-icon>restore_from_trash</md-icon>
   </div>
 </template>
 
@@ -9,17 +9,17 @@ import { bus } from "../main";
 import NoteService from "../Services/NoteService";
 
 export default {
-  name: "IconUnArchive",
+  name: "IconRestoreFromtrash",
   props: {
     cartId: String,
   },
   methods: {
     moveToNotes: function () {
       const trashData = {
-        isArchived: false,
+        isDeleted: false,
         noteIdList: [this.$props.cartId],
       };
-      NoteService.moveToArchive(trashData)
+      NoteService.moveToTrash(trashData)
         .then(() => {
           bus.$emit("updateNoteList");
         })
@@ -32,11 +32,11 @@ export default {
 </script>
 
 <style scoped>
-.archive {
+.delete {
   cursor: pointer;
   margin: 5px;
 }
 .md-icon:hover {
   color: black;
 }
-</style> 
+</style>

@@ -1,11 +1,12 @@
 <template>
   <div class="container">
-    <DisplayNotes :notes="noteList" />
+    <DisplayNotes :notes="noteList" trash="true"/>
   </div>
 </template>
 <script>
 import NoteService from "../Services/NoteService";
 import DisplayNotes from "./DisplayNotes";
+import { bus } from "../main";
 
 export default {
   name: "Notes",
@@ -32,6 +33,11 @@ export default {
   },
   mounted() {
     this.getTrashedNotes();
+  },
+   created() {
+    bus.$on("updateNoteList", () => {
+      this.getTrashedNotes();
+    });
   },
 };
 </script>
