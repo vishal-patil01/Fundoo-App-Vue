@@ -1,5 +1,5 @@
 <template>
-  <div class="delete" @click="moveToTrash()">
+  <div class="delete" @click="DeleteForever()">
     <md-icon>delete_forever</md-icon>
   </div>
 </template>
@@ -14,12 +14,11 @@ export default {
     cartId: String,
   },
   methods: {
-    moveToTrash: function () {
-      const trashData = {
-        isDeleted: true,
+    DeleteForever: function () {
+      const note = {
         noteIdList: [this.$props.cartId],
       };
-      NoteService.moveToTrash(trashData)
+      NoteService.deleteNoteForever(note)
         .then(() => {
           bus.$emit("updateNoteList");
         })

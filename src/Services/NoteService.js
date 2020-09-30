@@ -18,5 +18,8 @@ export default {
     },
     moveToArchive(note){
         return httpservice.post('notes/archiveNotes',note)
+    },
+    deleteNoteForever(noteId){
+        return httpservice.post('notes/deleteForeverNotes',noteId)
     }
 }

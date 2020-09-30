@@ -2,13 +2,11 @@
   <div class="container">
     <div class="notes-container">
       <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
-        <md-card>
-          <label class="title">{{ note.title }}</label
-          >
-          <label class="description">{{ note.description }}</label
-          >
+        <md-card >
+          <label class="title">{{ note.title }}</label>
+          <label class="description">{{ note.description }}</label>
           <div class="notebox-icons-container">
-             <div v-if="trash" class="notebook-icons">
+            <div v-if="trash" class="notebook-icons">
               <IconDeleteForever :cartId="note.id" />
             </div>
             <div v-if="trash" class="notebook-icons">
@@ -53,7 +51,16 @@ export default {
     IconUnArchive,
     IconTrash,
     IconRestoreFromtrash,
-    IconDeleteForever
+    IconDeleteForever,
+  },
+  data: () => ({
+    showDialog: false,
+  }),
+  methods: {
+    edit: function () {
+      alert(11)
+      this.showDialog = true;
+    },
   },
 };
 </script>
@@ -72,7 +79,7 @@ export default {
   flex-direction: column;
   border-radius: 8px;
   text-align: start;
-  margin:15px 10px;
+  margin: 15px 10px;
   padding: 0 10px;
   background-color: white;
   display: flex;
