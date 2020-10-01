@@ -51,7 +51,7 @@ export default {
 .container {
   @include flex-box;
   flex-direction: column;
-  margin: 10px 10px;
+  margin: 10px auto;
   width: -webkit-fill-available;
 }
 </style> 

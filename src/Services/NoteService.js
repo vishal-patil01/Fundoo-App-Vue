@@ -21,5 +21,8 @@ export default {
     },
     deleteNoteForever(noteId){
         return httpservice.post('notes/deleteForeverNotes',noteId)
+    },
+    updateNote(note){
+        return httpservice.post('notes/updateNotes',note)
     }
 }

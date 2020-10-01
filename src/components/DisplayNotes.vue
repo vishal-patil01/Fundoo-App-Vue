@@ -1,32 +1,35 @@
 <template>
-  <div class="container">
-    <div class="notes-container">
-      <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
-        <md-card >
-          <label class="title">{{ note.title }}</label>
-          <label class="description">{{ note.description }}</label>
-          <div class="notebox-icons-container">
-            <div v-if="trash" class="notebook-icons">
-              <IconDeleteForever :cartId="note.id" />
-            </div>
-            <div v-if="trash" class="notebook-icons">
-              <IconRestoreFromtrash :cartId="note.id" />
-            </div>
-            <div v-if="!trash" class="notebook-icons">
-              <IconColorPalette :cartId="note.id" />
-            </div>
-            <div v-if="archive && !trash" class="notebook-icons">
-              <IconUnArchive :cartId="note.id" />
-            </div>
-            <div v-if="!archive && !trash" class="notebook-icons">
-              <IconArchive :cartId="note.id" />
-            </div>
-            <div v-if="!trash || !trash" class="notebook-icons">
-              <IconTrash :cartId="note.id" />
-            </div>
+  <div class="notes-container">
+    <CustomDialogBox
+      :showContextMenu="showDialog"
+      @close="showDialog = false"
+      :noteDetails="noteDetails"
+    />
+    <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
+      <md-card @click.native="edit(note)">
+        <label class="title">{{ note.title }}</label>
+        <label class="description">{{ note.description }}</label>
+        <div class="notebox-icons-container">
+          <div v-if="trash" class="notebook-icons">
+            <IconDeleteForever :cartId="note.id" />
           </div>
-        </md-card>
-      </div>
+          <div v-if="trash" class="notebook-icons">
+            <IconRestoreFromtrash :cartId="note.id" />
+          </div>
+          <div v-if="!trash" class="notebook-icons">
+            <IconColorPalette :cartId="note.id" />
+          </div>
+          <div v-if="archive && !trash" class="notebook-icons">
+            <IconUnArchive :cartId="note.id" />
+          </div>
+          <div v-if="!archive && !trash" class="notebook-icons">
+            <IconArchive :cartId="note.id" />
+          </div>
+          <div v-if="!trash || !trash" class="notebook-icons">
+            <IconTrash :cartId="note.id" />
+          </div>
+        </div>
+      </md-card>
     </div>
   </div>
 </template>
@@ -38,6 +41,7 @@ import IconUnArchive from "./IconUnArchive";
 import IconTrash from "./IconTrash";
 import IconRestoreFromtrash from "./IconRestoreFromtrash";
 import IconDeleteForever from "./IconDeleteForever";
+import CustomDialogBox from "./CustomDialogBox";
 
 export default {
   props: {
@@ -52,14 +56,16 @@ export default {
     IconTrash,
     IconRestoreFromtrash,
     IconDeleteForever,
+    CustomDialogBox,
   },
   data: () => ({
     showDialog: false,
+    noteDetails: {},
   }),
   methods: {
-    edit: function () {
-      alert(11)
+    edit: function (data) {
       this.showDialog = true;
+      this.noteDetails = data;
     },
   },
 };
@@ -72,6 +78,7 @@ export default {
   flex-wrap: wrap;
   margin-top: 30px;
   height: fit-content;
+  margin: 10px auto;
   align-items: flex-start;
   width: -webkit-fill-available;
 }

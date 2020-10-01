@@ -147,7 +147,7 @@ span {
 }
 @media (max-width: 1000px) {
   .create-note {
-    width: 75vw;
+    width: 60vw;
   }
 }
 </style> 
