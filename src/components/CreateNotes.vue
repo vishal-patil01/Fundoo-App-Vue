@@ -2,12 +2,14 @@
   <div class="container">
     <div class="create-note">
       <div class="take-note" @click="createNote()">
-        <div>
-          <md-card id="title"> Take a note...</md-card>
+        <div :class="{ hideDiv: isVisible }" >
+          <md-card id="title" >
+            Take a note...</md-card
+          >
         </div>
       </div>
-      <div class="note-container">
-        <md-card id="new-note">
+      <div :class="{ hideDiv: !isVisible }">
+        <md-card id="new-note" >
           <md-field md-inline>
             <md-input v-model="noteTitle" placeholder="Title" />
           </md-field>
@@ -46,11 +48,11 @@ export default {
     noteTitle: "",
     noteData: "",
     noteList: [],
+    isVisible: false,
   }),
   methods: {
     createNote: function () {
-      document.getElementById("new-note").style.display = "flex";
-      document.getElementById("title").style.display = "none";
+      this.isVisible = true;
     },
     closeCreateNote: function () {
       const note = {
@@ -69,8 +71,7 @@ export default {
             console.log(error);
           });
       }
-      document.getElementById("new-note").style.display = "none";
-      document.getElementById("title").style.display = "flex";
+      this.isVisible = false;
     },
   },
 };
@@ -84,7 +85,9 @@ export default {
   margin: 10px 5px;
   width: -webkit-fill-available;
 }
-
+.hideDiv {
+  display: none;
+}
 .create-note {
   border-radius: 7px;
   width: 35vw;
@@ -118,9 +121,7 @@ export default {
   opacity: 0.6;
 }
 
-#new-note {
-  display: none;
-}
+
 
 .utility-icons {
   display: flex;
