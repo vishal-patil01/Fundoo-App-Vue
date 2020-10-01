@@ -89,9 +89,9 @@ export default {
       };
       NoteService.updateNote(data)
         .then(() => {
+          bus.$emit("closeDialogBox", this.dialogShow);
           bus.$emit("updateNoteList");
           this.dialogShow = false;
-          bus.$emit("closeDialogBox", this.dialogShow);
         })
         .catch((error) => {
           console.log(error);

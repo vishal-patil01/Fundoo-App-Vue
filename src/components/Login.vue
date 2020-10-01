@@ -157,6 +157,7 @@ export default {
             if (response.status == "200") {
               localStorage.setItem("token", response.data.id);
               localStorage.setItem("userName", response.data.firstName);
+              localStorage.setItem("email", response.data.email);
               this.$router.push("dashboard");
             }
           })
@@ -258,7 +259,7 @@ export default {
   border-color: #1a73e8;
 }
 .md-card-content {
-   padding: 0 16px; 
+  padding: 0 16px;
 }
 .md-card-actions {
   justify-content: space-between;

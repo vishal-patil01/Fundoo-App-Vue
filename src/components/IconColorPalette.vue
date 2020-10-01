@@ -7,15 +7,24 @@
 <script>
 export default {
   name: "IconColorPalette",
+
+  methods: {
+    colorLoad: function () {
+      alert(11);
+      document.getElementById("asd").style.backgroundColor = "red";
+    },
+  },
 };
 </script>
 
 <style scoped>
 .color-palette {
   cursor: pointer;
-   margin: 5px;
+  margin: 5px;
+  position: relative;
+  display: inline-block;
 }
-.md-icon:hover{
-    color: black;
+.md-icon:hover {
+  color: black;
 }
 </style> 

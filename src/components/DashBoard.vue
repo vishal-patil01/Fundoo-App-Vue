@@ -25,11 +25,28 @@
           </md-autocomplete>
         </div>
         <div class="md-toolbar-section-end">
-          <div class="separator">
-            <md-avatar id="userIcon" class="md-avatar-icon md-accent"
-              >A</md-avatar
-            >
-          </div>
+          <md-menu md-size="medium" md-align-trigger>
+            <md-button class="md-icon-button" md-menu-trigger>
+              <md-avatar class="md-avatar-icon md-accent">
+                {{ userName.substr(0, 1) }}
+              </md-avatar>
+            </md-button>
+            <md-menu-content>
+              <div class="profile">
+                <md-avatar
+                  id="userIcon"
+                  class="md-avatar-icon md-large md-accent"
+                  ><label class="userInitial">{{
+                    userName.substr(0, 1)
+                  }}</label></md-avatar
+                >
+                <label class="profile-name name">{{ userName }}</label>
+                <label class="profile-email">{{ email }}</label
+                ><br />
+                <md-button id="signout" @click="signout()">Sign-out</md-button>
+              </div>
+            </md-menu-content>
+          </md-menu>
         </div>
       </md-app-toolbar>
       <md-app-drawer
@@ -154,15 +171,20 @@ export default {
     searchText: "",
     searchData: [],
     isDataLoaded: false,
+    userName: localStorage.getItem("userName"),
+    email: localStorage.getItem("email"),
   }),
-  methods: {},
+  methods: {
+    signout: function () {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("email");
+      this.$router.push("/");
+    },
+  },
   created() {
     if (localStorage.getItem("token") == undefined) this.$router.push("/");
   },
-  mounted(){
-     document.getElementById("userIcon").style.backgroundColor =
-      "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }
 };
 </script>
 
@@ -294,8 +316,52 @@ ul > :not(.router-link-active) :hover {
   color: green;
 }
 .md-avatar.md-theme-default.md-accent.md-avatar-icon {
-  background-color: aquamarine !important;
+  background-color: slateblue !important;
 }
+//logout Div
+
+.profile {
+  padding-top: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 30px;
+  align-items: center;
+  justify-content: center;
+}
+.md-menu-content.md-menu-content-medium {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid !important;
+    border-radius: 12px !important;
+}
+.profile-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+}
+.profile-email {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: medium;
+  color: gray;
+}
+#userIcon {
+  margin-bottom: 8px;
+}
+.userInitial {
+  font-size: 64px;
+  padding-bottom: 10px;
+}
+.name {
+  text-transform: capitalize;
+  padding-bottom: 10px;
+}
+#signout {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 40%;
+}
+
 //stop clipped drawer moving down below width 600px
 @media (min-width: 0) {
   .md-drawer.md-permanent {
@@ -307,6 +373,9 @@ ul > :not(.router-link-active) :hover {
   .md-title {
     font-size: 18px;
     margin: 0;
+  }
+  .searchDiv {
+    height: unset;
   }
   //App icon
   img {
