@@ -1,8 +1,8 @@
 <template>
   <div class="notes-container">
     <CustomDialogBox
+      v-if="showDialog"
       :showContextMenu="showDialog"
-      @close="showDialog = false"
       :noteDetails="noteDetails"
     />
     <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
@@ -42,6 +42,7 @@ import IconTrash from "./IconTrash";
 import IconRestoreFromtrash from "./IconRestoreFromtrash";
 import IconDeleteForever from "./IconDeleteForever";
 import CustomDialogBox from "./CustomDialogBox";
+import { bus } from "../main";
 
 export default {
   props: {
@@ -68,6 +69,11 @@ export default {
       this.noteDetails = data;
     },
   },
+  created() {
+    bus.$on("closeDialogBox", (data) => {
+      this.showDialog = data;
+    });
+  },
 };
 </script>
 
@@ -82,11 +88,15 @@ export default {
   align-items: flex-start;
   width: -webkit-fill-available;
 }
+.inner-container {
+  justify-content: center;
+  margin: 10px 20px;
+}
 .inner-container > .md-card {
   flex-direction: column;
   border-radius: 8px;
   text-align: start;
-  margin: 15px 10px;
+  margin: 15px auto;
   padding: 0 10px;
   background-color: white;
   display: flex;
@@ -118,7 +128,13 @@ export default {
   display: flex;
   flex-direction: row;
   width: -webkit-fill-available;
-  justify-content: flex-end;
-  margin: 5px;
+  justify-content: space-evenly;
+  margin: 5px 10px;
+}
+@media (max-width: 652px) {
+  .inner-container {
+    justify-content: center;
+    margin: 10px auto;
+  }
 }
 </style> 

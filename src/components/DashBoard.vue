@@ -24,6 +24,13 @@
             <label>Search...</label>
           </md-autocomplete>
         </div>
+        <div class="md-toolbar-section-end">
+          <div class="separator">
+            <md-avatar id="userIcon" class="md-avatar-icon md-accent"
+              >A</md-avatar
+            >
+          </div>
+        </div>
       </md-app-toolbar>
       <md-app-drawer
         class="drawer"
@@ -152,6 +159,10 @@ export default {
   created() {
     if (localStorage.getItem("token") == undefined) this.$router.push("/");
   },
+  mounted(){
+     document.getElementById("userIcon").style.backgroundColor =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+  }
 };
 </script>
 
@@ -281,6 +292,9 @@ ul > :not(.router-link-active) :hover {
   display: none;
   background-color: red;
   color: green;
+}
+.md-avatar.md-theme-default.md-accent.md-avatar-icon {
+  background-color: aquamarine !important;
 }
 //stop clipped drawer moving down below width 600px
 @media (min-width: 0) {

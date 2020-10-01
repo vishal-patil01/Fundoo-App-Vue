@@ -1,13 +1,13 @@
 <template>
-  <md-dialog :md-active.sync="showContextMenu" class="dialogbox">
+  <md-dialog :md-active.sync="dialogShow" class="dialogbox">
     <div class="note-container">
       <md-card id="new-note">
         <md-field md-inline>
-          <md-input v-model="noteTitle" placeholder="Title" />
+          <md-input v-model="note.title" placeholder="Title" />
         </md-field>
         <md-field md-inline>
           <md-textarea
-            v-model="noteData"
+            v-model="note.description"
             placeholder="Take a note"
             md-autogrow
           />
@@ -15,15 +15,37 @@
         <div class="utility-icons">
           <span>
             <IconColorPalette
-              v-if="this.$router.currentRoute.path != 'trash'"
+              v-if="this.routerPath != '/dashboard/trash'"
+              :cartId="note.id"
             />
-            <IconArchive v-if="this.routerPath != '/dashboard/trash' " />
-            <IconUnArchive v-if="this.routerPath == '/dashboard/archieve'" />
-            <IconTrash v-if="this.routerPath == '/dashboard/trash'" />
-            <IconRestoreFromtrash v-if="this.routerPath == '/dashboard/trash'" />
-            <IconDeleteForever v-if="this.routerPath == '/dashboard/trash'" />
+            <IconArchive
+              v-if="
+                this.routerPath != '/dashboard/archieve' &&
+                this.routerPath != '/dashboard/trash'
+              "
+              :cartId="note.id"
+            />
+            <IconUnArchive
+              v-if="
+                this.routerPath == '/dashboard/archieve' &&
+                this.routerPath != '/dashboard/trash'
+              "
+              :cartId="note.id"
+            />
+            <IconTrash
+              v-if="this.routerPath != '/dashboard/trash'"
+              :cartId="note.id"
+            />
+            <IconRestoreFromtrash
+              v-if="this.routerPath == '/dashboard/trash'"
+              :cartId="note.id"
+            />
+            <IconDeleteForever
+              v-if="this.routerPath == '/dashboard/trash'"
+              :cartId="note.id"
+            />
           </span>
-          <button @click="updateNote(), $emit('close')">Close</button>
+          <button @click="updateNote()">Close</button>
         </div>
       </md-card>
     </div>
@@ -40,12 +62,11 @@ import IconDeleteForever from "./IconDeleteForever";
 import NoteService from "../Services/NoteService";
 import { bus } from "../main";
 
-
 export default {
   data: () => ({
-    noteTitle: "",
-    noteData: "",
-    routerPath:"",
+    routerPath: "",
+    dialogShow: "",
+    note: Object,
   }),
   components: {
     IconColorPalette,
@@ -62,32 +83,32 @@ export default {
   methods: {
     updateNote: function () {
       const data = {
-        description: this.noteData,
-        noteId: this.noteDetails.id,
-        title: this.noteTitle,
+        description: this.note.description,
+        noteId: this.note.id,
+        title: this.note.title,
       };
       NoteService.updateNote(data)
         .then(() => {
           bus.$emit("updateNoteList");
-          console.log("success");
+          this.dialogShow = false;
+          bus.$emit("closeDialogBox", this.dialogShow);
         })
         .catch((error) => {
           console.log(error);
         });
     },
   },
-  watch: {
-    noteDetails: function () {
-      this.noteTitle = this.$props.noteDetails.title;
-      this.noteData = this.$props.noteDetails.description;
-      this.routerPath=this.$router.currentRoute.path;
-    },
+  mounted() {
+    this.note = this.$props.noteDetails;
+    this.dialogShow = this.$props.showContextMenu;
+    this.routerPath = this.$router.currentRoute.path;
   },
 };
 </script>
 <style lang="scss" scoped>
 @import "../styles/style.scss";
 .md-dialog /deep/.md-dialog-container {
+  width: 35vw;
   border-radius: 10px;
 }
 .container {
@@ -131,11 +152,12 @@ export default {
   flex-direction: row;
   opacity: 0.6;
 }
-.md-input{
+.md-input {
   text-align: left;
 }
 #new-note {
   display: flex;
+  width: -webkit-fill-available;
 }
 
 .utility-icons {
@@ -151,7 +173,7 @@ export default {
   cursor: pointer;
   background-color: transparent;
   padding: 5px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .md-field:after,
 .md-field:before {
@@ -169,16 +191,17 @@ span {
   display: flex;
   flex-direction: row;
 }
-@media (max-width: 1000px) {
+@media (max-width: 2000px) {
   .create-note {
     width: 75vw;
   }
 }
 @media (max-width: 600px) {
-  .md-dialog-fullscreen {
-    border-radius: 14px;
-    height: auto;
-    transform: none;
+  .md-dialog /deep/.md-dialog-container {
+    margin: auto 25px;
+    border-radius: 10px;
+    width: -webkit-fill-available;
+    height: fit-content;
   }
 }
 </style> 

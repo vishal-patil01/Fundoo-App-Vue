@@ -156,6 +156,7 @@ export default {
             this.isDataLoaded = true;
             if (response.status == "200") {
               localStorage.setItem("token", response.data.id);
+              localStorage.setItem("userName", response.data.firstName);
               this.$router.push("dashboard");
             }
           })
