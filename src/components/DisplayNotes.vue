@@ -6,7 +6,7 @@
       :noteDetails="noteDetails"
     />
     <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
-      <md-card @click.native="edit(note)">
+      <md-card @click.native.self="edit(note)">
         <label class="title">{{ note.title }}</label>
         <label class="description">{{ note.description }}</label>
         <div class="notebox-icons-container">
