@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <DisplayNotes :notes="noteList" archive="true" />
+    <img
+      v-if="!isDataLoaded"
+      height="100"
+      width="100"
+      src="../assets/loader.gif"
+    />
+    <DisplayNotes v-if="isDataLoaded" :notes="noteList" archive="true" />
   </div>
 </template>
 <script>
@@ -13,6 +19,7 @@ export default {
   data() {
     return {
       noteList: [],
+      isDataLoaded: false,
     };
   },
   components: {
@@ -34,11 +41,11 @@ export default {
   mounted() {
     this.getArchivedNotes();
   },
-  created(){
+  created() {
     bus.$on("updateNoteList", () => {
       this.getArchivedNotes();
     });
-  }
+  },
 };
 </script>
 <style scoped>
@@ -46,7 +53,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   height: fit-content;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   width: -webkit-fill-available;
 }
 </style>

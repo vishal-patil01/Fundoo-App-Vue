@@ -60,7 +60,7 @@
       md-persistent
     >
       <span>Data Can Not be Edited in Trash!</span>
-      <md-button class="md-primary" @click="showSnackbar = false">x</md-button>
+      <md-button class="md-primary" @click="closeDialog()">x</md-button>
     </md-snackbar>
   </md-dialog>
 </template>
@@ -97,6 +97,7 @@ export default {
   methods: {
     closeDialog: function () {
       this.dialogShow = false;
+      this.showSnackbar = false;
       bus.$emit("closeDialogBox", this.dialogShow);
     },
     checkNotesIsInTrash: function () {
@@ -109,7 +110,6 @@ export default {
           setTimeout(() => {
             this.closeDialog();
           }, 3000);
-          //
         }
       }
     },
@@ -123,7 +123,7 @@ export default {
       NoteService.updateNote(data)
         .then(() => {
           bus.$emit("updateNoteList");
-         // this.closeDialog();
+          this.closeDialog();
         })
         .catch((error) => {
           console.log(error);

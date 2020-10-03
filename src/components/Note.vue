@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <CreateNotes />
-    <DisplayNotes :notes="noteList" />
+    <img v-if="!isDataLoaded" height="100" width="100" src="../assets/loader.gif">
+    <DisplayNotes v-if="isDataLoaded" :notes="noteList" />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
   },
   data: () => ({
     noteList: [],
+    isDataLoaded:false,
   }),
   methods: {
     getNotes: function () {
