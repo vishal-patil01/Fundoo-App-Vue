@@ -2,7 +2,12 @@
   <div class="color-palette">
     <md-icon>palette</md-icon>
     <div class="dropdown-content">
-      <div class="colorBall" v-for="color in colors" v-bind:key="color" @click="setColor(color)"></div>
+      <div
+        class="colorBall"
+        v-for="color in colors"
+        v-bind:key="color"
+        @click="setColor(color)"
+      ></div>
     </div>
   </div>
 </template>

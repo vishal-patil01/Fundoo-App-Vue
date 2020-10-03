@@ -3,11 +3,11 @@
     <div class="note-container">
       <md-card id="new-note">
         <md-field md-inline>
-          <md-input v-model="note.title" placeholder="Title" />
+          <md-input v-model="editingNote.title" placeholder="Title" />
         </md-field>
         <md-field md-inline>
           <md-textarea
-            v-model="note.description"
+            v-model="editingNote.description"
             placeholder="Take a note"
             md-autogrow
           />
@@ -16,39 +16,52 @@
           <span>
             <IconColorPalette
               v-if="this.routerPath != '/dashboard/trash'"
-              :cartId="note.id"
+              :cartId="editingNote.id"
             />
             <IconArchive
               v-if="
                 this.routerPath != '/dashboard/archieve' &&
                 this.routerPath != '/dashboard/trash'
               "
-              :cartId="note.id"
+              :cartId="editingNote.id"
+              @click.native="closeDialog()"
             />
             <IconUnArchive
               v-if="
                 this.routerPath == '/dashboard/archieve' &&
                 this.routerPath != '/dashboard/trash'
               "
-              :cartId="note.id"
+              :cartId="editingNote.id"
+              @click.native="closeDialog()"
             />
             <IconTrash
               v-if="this.routerPath != '/dashboard/trash'"
-              :cartId="note.id"
+              :cartId="editingNote.id"
+              @click.native="closeDialog()"
             />
             <IconRestoreFromtrash
               v-if="this.routerPath == '/dashboard/trash'"
-              :cartId="note.id"
+              :cartId="editingNote.id"
+              @click.native="closeDialog()"
             />
             <IconDeleteForever
               v-if="this.routerPath == '/dashboard/trash'"
-              :cartId="note.id"
+              :cartId="editingNote.id"
+              @click.native="closeDialog()"
             />
           </span>
           <button @click="updateNote()">Close</button>
         </div>
       </md-card>
     </div>
+    <md-snackbar
+      md-position="left"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>Data Can Not be Edited in Trash!</span>
+      <md-button class="md-primary" @click="showSnackbar = false">x</md-button>
+    </md-snackbar>
   </md-dialog>
 </template>
 
@@ -66,7 +79,8 @@ export default {
   data: () => ({
     routerPath: "",
     dialogShow: "",
-    note: Object,
+    editingNote: Object,
+    showSnackbar: false,
   }),
   components: {
     IconColorPalette,
@@ -81,17 +95,35 @@ export default {
     noteDetails: Object,
   },
   methods: {
+    closeDialog: function () {
+      this.dialogShow = false;
+      bus.$emit("closeDialogBox", this.dialogShow);
+    },
+    checkNotesIsInTrash: function () {
+      if (this.routerPath == "/dashboard/trash") {
+        if (
+          this.noteDetails.description != this.editingNote.description ||
+          this.noteDetails.title != this.editingNote.title
+        ) {
+          this.showSnackbar = true;
+          setTimeout(() => {
+            this.closeDialog();
+          }, 3000);
+          //
+        }
+      }
+    },
     updateNote: function () {
+      this.checkNotesIsInTrash();
       const data = {
-        description: this.note.description,
-        noteId: this.note.id,
-        title: this.note.title,
+        description: this.editingNote.description,
+        noteId: this.editingNote.id,
+        title: this.editingNote.title,
       };
       NoteService.updateNote(data)
         .then(() => {
-          bus.$emit("closeDialogBox", this.dialogShow);
           bus.$emit("updateNoteList");
-          this.dialogShow = false;
+         // this.closeDialog();
         })
         .catch((error) => {
           console.log(error);
@@ -99,8 +131,8 @@ export default {
     },
   },
   mounted() {
-    this.note = this.$props.noteDetails;
-    this.dialogShow = this.$props.showContextMenu;
+    this.editingNote = Object.assign({}, this.noteDetails);
+    this.dialogShow = this.showContextMenu;
     this.routerPath = this.$router.currentRoute.path;
   },
 };
