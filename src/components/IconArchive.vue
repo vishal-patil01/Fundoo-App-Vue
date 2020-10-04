@@ -1,6 +1,6 @@
 <template>
   <div class="archive" @click="moveToArchieve()">
-    <md-icon>archive</md-icon>
+    <md-icon :class="{'selected':isSelected}">archive</md-icon>
   </div>
 </template>
 
@@ -10,22 +10,31 @@ import NoteService from "../Services/NoteService";
 
 export default {
   name: "IconArchive",
+  data: () => ({
+    isSelected: false,
+  }),
   props: {
     cartId: String,
+    isCreateNote: Boolean,
   },
   methods: {
     moveToArchieve: function () {
-      const trashData = {
-        isArchived: true,
-        noteIdList: [this.$props.cartId],
-      };
-      NoteService.moveToArchive(trashData)
-        .then(() => {
-          bus.$emit("updateNoteList",true);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.isCreateNote) {
+        this.isSelected = !this.isSelected;
+        bus.$emit("isArchieved");
+      } else {
+        const trashData = {
+          isArchived: true,
+          noteIdList: [this.$props.cartId],
+        };
+        NoteService.moveToArchive(trashData)
+          .then(() => {
+            bus.$emit("updateNoteList", true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 };
@@ -35,6 +44,9 @@ export default {
 .archive {
   cursor: pointer;
   margin: 5px;
+}
+.selected {
+  color: black !important;
 }
 .md-icon:hover {
   color: black;

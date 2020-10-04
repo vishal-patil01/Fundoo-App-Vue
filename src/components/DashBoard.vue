@@ -305,7 +305,7 @@ ul > :not(.router-link-active) :hover {
 .searchicon {
   font-size: 20px;
   color: grey;
-  margin: auto 10px;
+  margin: auto 0 auto 15px;
 }
 
 //search label color

@@ -1,7 +1,7 @@
 <template>
   <div class="color-palette">
-    <md-icon>palette</md-icon>
-    <div class="dropdown-content">
+    <md-icon @click.native="itemSelected = !itemSelected">palette</md-icon>
+    <div :class="{ 'dropdown-content': true, selected: itemSelected }">
       <div
         class="colorBall"
         v-for="color in colors"
@@ -20,6 +20,7 @@ export default {
   name: "IconColorPalette",
   props: {
     cartId: String,
+    isCreateNote: Boolean,
   },
   data: () => ({
     colors: [
@@ -36,20 +37,30 @@ export default {
       "#e6a9c8",
       "#d3d3d3",
     ],
+    itemSelected: false,
   }),
   methods: {
+    toggle: function () {
+      alert(this.itemSelected);
+      this.itemSelected = !this.itemSelected;
+    },
     setColor: function (colorValue) {
-      const data = {
-        color: colorValue,
-        noteIdList: [this.$props.cartId],
-      };
-      NoteService.changeColor(data)
-        .then(() => {
-          bus.$emit("updateNoteList",true);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.isCreateNote) {
+        this.itemSelected = !this.itemSelected;
+        bus.$emit("setNewColor", colorValue);
+      } else {
+        const data = {
+          color: colorValue,
+          noteIdList: [this.$props.cartId],
+        };
+        NoteService.changeColor(data)
+          .then(() => {
+            bus.$emit("updateNoteList", true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 };
@@ -81,16 +92,12 @@ export default {
   border-radius: 20px;
 }
 
-.md-icon:hover + .dropdown-content {
+.selected {
   display: flex;
   flex-wrap: wrap;
   bottom: 100%;
 }
-.dropdown-content:hover {
-  display: flex;
-  flex-wrap: wrap;
-  bottom: 100%;
-}
+
 //dynamic css for generate specific color code for color pallete
 $colors: white, #f28b82, #fbbc04, #fff475, #ccff90, #a7ffeb, #cbf0f8, #aecbfa,
   #d7aefb, #fdcff8, #e6a9c8, lightgrey;

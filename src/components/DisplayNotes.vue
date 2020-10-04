@@ -10,7 +10,7 @@
       v-for="note in notes"
       v-bind:key="note.id"
     >
-      <md-card @load="test()" :style="{'background-color':note.color}"
+      <md-card :style="{'background-color':note.color}"
         :class="{ listLayout: listViewEnabled }"
         @click.native.self="edit(note)"
       >
@@ -78,9 +78,6 @@ export default {
       this.showDialog = true;
       this.noteDetails = data;
     },
-    test:function(){
-      console.log(111)
-    }
   },
   created() {
     bus.$on("closeDialogBox", (data) => {

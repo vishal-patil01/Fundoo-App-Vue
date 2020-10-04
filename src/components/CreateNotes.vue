@@ -2,14 +2,12 @@
   <div class="container">
     <div class="create-note">
       <div class="take-note" @click="createNote()">
-        <div :class="{ hideDiv: isVisible }" >
-          <md-card id="title" >
-            Take a note...</md-card
-          >
+        <div :class="{ hideDiv: isVisible }">
+          <md-card id="title"> Take a note...</md-card>
         </div>
       </div>
       <div :class="{ hideDiv: !isVisible }">
-        <md-card id="new-note" >
+        <md-card id="new-note">
           <md-field md-inline>
             <md-input v-model="noteTitle" placeholder="Title" />
           </md-field>
@@ -22,8 +20,8 @@
           </md-field>
           <div class="utility-icons">
             <span>
-              <IconColorPalette />
-              <IconArchive />
+              <IconColorPalette :isCreateNote="true" />
+              <IconArchive :isCreateNote="true" />
             </span>
             <button @click="closeCreateNote()">Close</button>
           </div>
@@ -49,6 +47,8 @@ export default {
     noteData: "",
     noteList: [],
     isVisible: false,
+    isArchived: false,
+    color: "",
   }),
   methods: {
     createNote: function () {
@@ -58,14 +58,16 @@ export default {
       const note = {
         title: this.noteTitle,
         description: this.noteData,
+        isArchived: this.isArchived,
+        color: this.color,
       };
       if (note.title.trim() != "" || note.description.trim() != "") {
         UserService.addNote(note)
           .then((response) => {
             console.log(response);
-            this.title = "";
-            this.description = "";
-            bus.$emit("updateNoteList");
+            this.noteTitle = "";
+            this.noteData = "";
+            bus.$emit("updateNoteList",true);
           })
           .catch((error) => {
             console.log(error);
@@ -73,6 +75,14 @@ export default {
       }
       this.isVisible = false;
     },
+  },
+  created() {
+    bus.$on("isArchieved", () => {
+      this.isArchived = true;
+    });
+    bus.$on("setNewColor", (value) => {
+      this.color = value;
+    });
   },
 };
 </script>
@@ -120,8 +130,6 @@ export default {
   flex-direction: row;
   opacity: 0.6;
 }
-
-
 
 .utility-icons {
   display: flex;
