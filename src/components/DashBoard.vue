@@ -1,5 +1,9 @@
 <template>
   <div class="page-container">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <md-app>
       <md-app-toolbar class="md-primary" md-elevation="0">
         <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
@@ -8,13 +12,14 @@
         <div>
           <span class="md-title">
             <img
+              class="appicon"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Google_Keep_icon.svg/1200px-Google_Keep_icon.svg.png"
             />
             Fundoo
           </span>
         </div>
         <div class="searchDiv">
-          <i class="fa fa-search searchIcon"></i>
+          <i class="fa fa-search searchicon"></i>
           <md-autocomplete
             class="search"
             v-model="searchText"
@@ -25,6 +30,14 @@
           </md-autocomplete>
         </div>
         <div class="md-toolbar-section-end">
+          <md-button class="viewLayout"  @click="listViewEnabled = !listViewEnabled">
+            <i
+              :class="{ 'fa fa-th-large icon listLayout': !listViewEnabled }"
+            ></i>
+            <i
+              :class="{ 'fa fa-bars icon listLayout': listViewEnabled }"
+            ></i>
+          </md-button>
           <md-menu md-size="medium" md-align-trigger>
             <md-button class="md-icon-button" md-menu-trigger>
               <md-avatar class="md-avatar-icon md-accent">
@@ -162,11 +175,14 @@
 </template>
 
 <script>
+import { bus } from "../main";
+
 export default {
   name: "DashBoard",
   components: {},
 
   data: () => ({
+    listViewEnabled: false,
     menuVisible: false,
     searchText: "",
     searchData: [],
@@ -180,6 +196,11 @@ export default {
       localStorage.removeItem("userName");
       localStorage.removeItem("email");
       this.$router.push("/");
+    },
+  },
+  watch: {
+    listViewEnabled: function () {
+      bus.$emit("setListView", this.listViewEnabled);
     },
   },
   created() {
@@ -224,7 +245,7 @@ export default {
   font-size: calc(0.75em + 1.2vmin);
 }
 //App icon
-img {
+.appicon {
   width: calc(0.75em + 2.9vmin);
   height: calc(0.75em + 1.8vmin);
   padding: 0 5px;
@@ -280,10 +301,11 @@ ul > :not(.router-link-active) :hover {
   background-color: rgb(241, 243, 244) !important;
   border-radius: 20px;
 }
-.searchIcon {
-  color: rgb(95, 99, 104);
-  margin-left: 15px;
-  font-size: 16px;
+//searchicon
+.searchicon {
+  font-size: 20px;
+  color: grey;
+  margin: auto 10px;
 }
 
 //search label color
@@ -331,10 +353,10 @@ ul > :not(.router-link-active) :hover {
   justify-content: center;
 }
 .md-menu-content.md-menu-content-medium {
-    flex: 1;
-    overflow: auto;
-    border: 1px solid !important;
-    border-radius: 12px !important;
+  flex: 1;
+  overflow: auto;
+  border: 1px solid !important;
+  border-radius: 12px !important;
 }
 .profile-name {
   font-family: Arial, Helvetica, sans-serif;
@@ -362,6 +384,13 @@ ul > :not(.router-link-active) :hover {
   width: 40%;
 }
 
+.icon {
+  color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-size: 28px;
+}
+
 //stop clipped drawer moving down below width 600px
 @media (min-width: 0) {
   .md-drawer.md-permanent {
@@ -385,6 +414,11 @@ ul > :not(.router-link-active) :hover {
   }
   .content-area {
     align-items: center;
+  }
+}
+@media (max-width: 520px) {
+  .viewLayout {
+    display: none;
   }
 }
 </style>

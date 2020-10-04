@@ -1,12 +1,19 @@
 <template>
-  <div class="notes-container">
+  <div :class="{ 'notes-container': true, listLayout: listViewEnabled }">
     <CustomDialogBox
       v-if="showDialog"
       :showContextMenu="showDialog"
       :noteDetails="noteDetails"
     />
-    <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
-      <md-card @click.native.self="edit(note)">
+    <div
+      :class="{ 'inner-container': true, listLayout: listViewEnabled }"
+      v-for="note in notes"
+      v-bind:key="note.id"
+    >
+      <md-card
+        :class="{ listLayout: listViewEnabled }"
+        @click.native.self="edit(note)"
+      >
         <div class="labeldiv" @click="edit(note)">
           <label class="title">{{ note.title }}</label>
           <label class="description">{{ note.description }}</label>
@@ -64,6 +71,7 @@ export default {
   data: () => ({
     showDialog: false,
     noteDetails: {},
+    listViewEnabled: false,
   }),
   methods: {
     edit: function (data) {
@@ -74,6 +82,9 @@ export default {
   created() {
     bus.$on("closeDialogBox", (data) => {
       this.showDialog = data;
+    });
+    bus.$on("setListView", (data) => {
+      this.listViewEnabled = data;
     });
   },
 };
@@ -96,7 +107,7 @@ export default {
 }
 .inner-container {
   justify-content: center;
-  margin: 10px 20px;
+  margin: 10px 10px;
 }
 .inner-container > .md-card {
   display: flex;
@@ -137,10 +148,29 @@ export default {
   justify-content: space-evenly;
   margin: 5px 10px;
 }
+.listLayout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 35vw !important;
+}
 @media (max-width: 652px) {
   .inner-container {
     justify-content: center;
     margin: 10px auto;
+  }
+}
+@media (max-width: 1000px) {
+  .listLayout {
+    width: 60vw !important;
+  }
+}
+@media (max-width: 550px) {
+  .listLayout {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 230px !important;
   }
 }
 </style> 
