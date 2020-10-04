@@ -7,8 +7,10 @@
     />
     <div class="inner-container" v-for="note in notes" v-bind:key="note.id">
       <md-card @click.native.self="edit(note)">
-        <label class="title">{{ note.title }}</label>
-        <label class="description">{{ note.description }}</label>
+        <div class="labeldiv" @click="edit(note)">
+          <label class="title">{{ note.title }}</label>
+          <label class="description">{{ note.description }}</label>
+        </div>
         <div class="notebox-icons-container">
           <div v-if="trash" class="notebook-icons">
             <IconDeleteForever :cartId="note.id" />
@@ -88,11 +90,16 @@ export default {
   align-items: flex-start;
   width: -webkit-fill-available;
 }
+.labeldiv {
+  display: flex;
+  flex-direction: column;
+}
 .inner-container {
   justify-content: center;
   margin: 10px 20px;
 }
 .inner-container > .md-card {
+  display: flex;
   flex-direction: column;
   border-radius: 8px;
   text-align: start;
@@ -101,7 +108,6 @@ export default {
   background-color: white;
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 230px;
   border: 1px solid transparent;
   border-color: #e0e0e0;

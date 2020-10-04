@@ -42,8 +42,8 @@ export default {
     this.getTrashedNotes();
   },
   created() {
-    bus.$on("updateNoteList", () => {
-      this.getTrashedNotes();
+    bus.$on("updateNoteList", (value) => {
+      if (value == true) this.getNotes();
     });
   },
 };

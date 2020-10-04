@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <CreateNotes />
-    <img v-if="!isDataLoaded" height="100" width="100" src="../assets/loader.gif">
+    <img
+      v-if="!isDataLoaded"
+      height="100"
+      width="100"
+      src="../assets/loader.gif"
+    />
     <DisplayNotes v-if="isDataLoaded" :notes="noteList" />
   </div>
 </template>
@@ -19,7 +24,7 @@ export default {
   },
   data: () => ({
     noteList: [],
-    isDataLoaded:false,
+    isDataLoaded: false,
   }),
   methods: {
     getNotes: function () {
@@ -40,11 +45,11 @@ export default {
   mounted() {
     this.getNotes();
   },
-  created(){
-    bus.$on("updateNoteList", () => {
-      this.getNotes();
+  created() {
+    bus.$on("updateNoteList", (value) => {
+      if (value == true) this.getNotes();
     });
-  }
+  },
 };
 </script>
 

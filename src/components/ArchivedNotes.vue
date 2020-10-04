@@ -42,8 +42,8 @@ export default {
     this.getArchivedNotes();
   },
   created() {
-    bus.$on("updateNoteList", () => {
-      this.getArchivedNotes();
+    bus.$on("updateNoteList", (value) => {
+      if (value == true) this.getNotes();
     });
   },
 };

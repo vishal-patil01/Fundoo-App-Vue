@@ -59,7 +59,7 @@
       :md-active.sync="showSnackbar"
       md-persistent
     >
-      <span>Data Can Not be Edited in Trash!</span>
+      <span>Notes Can not be edited in trash!</span>
       <md-button class="md-primary" @click="closeDialog()">x</md-button>
     </md-snackbar>
   </md-dialog>
@@ -102,32 +102,42 @@ export default {
     },
     checkNotesIsInTrash: function () {
       if (this.routerPath == "/dashboard/trash") {
-        if (
-          this.noteDetails.description != this.editingNote.description ||
-          this.noteDetails.title != this.editingNote.title
-        ) {
-          this.showSnackbar = true;
-          setTimeout(() => {
-            this.closeDialog();
-          }, 3000);
-        }
+        this.showSnackbar = true;
+        setTimeout(() => {
+          this.closeDialog();
+        }, 3000);
+        return true;
       }
+      return false;
+    },
+    checkDataModified: function () {
+      if (
+        this.noteDetails.description != this.editingNote.description ||
+        this.noteDetails.title != this.editingNote.title
+      ) {
+        return true;
+      }
+      this.closeDialog();
+      return false;
     },
     updateNote: function () {
-      this.checkNotesIsInTrash();
-      const data = {
-        description: this.editingNote.description,
-        noteId: this.editingNote.id,
-        title: this.editingNote.title,
-      };
-      NoteService.updateNote(data)
-        .then(() => {
-          bus.$emit("updateNoteList");
-          this.closeDialog();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.checkDataModified()) {
+        if (!this.checkNotesIsInTrash()) {
+          const data = {
+            description: this.editingNote.description,
+            noteId: this.editingNote.id,
+            title: this.editingNote.title,
+          };
+          NoteService.updateNote(data)
+            .then(() => {
+              bus.$emit("updateNoteList", true);
+              this.closeDialog();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      }
     },
   },
   mounted() {
