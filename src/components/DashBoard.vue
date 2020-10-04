@@ -30,13 +30,14 @@
           </md-autocomplete>
         </div>
         <div class="md-toolbar-section-end">
-          <md-button class="viewLayout"  @click="listViewEnabled = !listViewEnabled">
+          <md-button
+            class="viewLayout"
+            @click="listViewEnabled = !listViewEnabled"
+          >
             <i
               :class="{ 'fa fa-th-large icon listLayout': !listViewEnabled }"
             ></i>
-            <i
-              :class="{ 'fa fa-bars icon listLayout': listViewEnabled }"
-            ></i>
+            <i :class="{ 'fa fa-bars icon listLayout': listViewEnabled }"></i>
           </md-button>
           <md-menu md-size="medium" md-align-trigger>
             <md-button class="md-icon-button" md-menu-trigger>
@@ -202,9 +203,17 @@ export default {
     listViewEnabled: function () {
       bus.$emit("setListView", this.listViewEnabled);
     },
+    searchText: function () {
+      bus.$emit("search", this.searchText.toLowerCase().trim());
+    },
   },
   created() {
     if (localStorage.getItem("token") == undefined) this.$router.push("/");
+  },
+  mounted() {
+    bus.$on("clearSearch", () => {
+      this.searchText = "";
+    });
   },
 };
 </script>

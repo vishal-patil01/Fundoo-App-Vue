@@ -6,7 +6,7 @@
       width="100"
       src="../assets/loader.gif"
     />
-    <DisplayNotes v-if="isDataLoaded" :notes="noteList" trash="true" />
+    <DisplayNotes v-if="isDataLoaded" :notes="filteredNotes" trash="true" />
   </div>
 </template>
 <script>
@@ -20,6 +20,7 @@ export default {
     return {
       noteList: [],
       isDataLoaded: false,
+      searchedNotes: "",
     };
   },
   components: {
@@ -38,12 +39,23 @@ export default {
         });
     },
   },
+  computed: {
+    filteredNotes: function () {
+      return this.noteList.filter((note) => {
+        return note.title.toLowerCase().trim().match(this.searchedNotes);
+      });
+    },
+  },
   mounted() {
+    bus.$emit("clearSearch");
     this.getTrashedNotes();
   },
   created() {
     bus.$on("updateNoteList", (value) => {
       if (value) this.getTrashedNotes();
+    });
+    bus.$on("search", (value) => {
+      this.searchedNotes = value;
     });
   },
 };

@@ -7,7 +7,7 @@
       width="100"
       src="../assets/loader.gif"
     />
-    <DisplayNotes v-if="isDataLoaded" :notes="noteList" />
+    <DisplayNotes v-if="isDataLoaded" :notes="filteredNotes" />
   </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
   data: () => ({
     noteList: [],
     isDataLoaded: false,
+    searchedNotes: "",
   }),
   methods: {
     getNotes: function () {
@@ -42,12 +43,23 @@ export default {
         });
     },
   },
+  computed: {
+    filteredNotes: function () {
+      return this.noteList.filter((note) => {
+        return note.title.toLowerCase().trim().match(this.searchedNotes);
+      });
+    },
+  },
   mounted() {
+    bus.$emit("clearSearch");
     this.getNotes();
   },
   created() {
     bus.$on("updateNoteList", (value) => {
       if (value) this.getNotes();
+    });
+    bus.$on("search", (value) => {
+      this.searchedNotes = value;
     });
   },
 };
