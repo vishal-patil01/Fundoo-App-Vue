@@ -43,7 +43,7 @@ export default {
   },
   created() {
     bus.$on("updateNoteList", (value) => {
-      if (value == true) this.getNotes();
+      if (value) this.getArchivedNotes();
     });
   },
 };

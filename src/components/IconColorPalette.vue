@@ -13,11 +13,17 @@
 </template>
 
 <script>
+import NoteService from "../Services/NoteService";
+import { bus } from "../main";
+
 export default {
   name: "IconColorPalette",
+  props: {
+    cartId: String,
+  },
   data: () => ({
     colors: [
-      "white",
+      "#ffffff",
       "#f28b82",
       "#fbbc04",
       "#fff475",
@@ -28,12 +34,22 @@ export default {
       "#d7aefb",
       "#fdcff8",
       "#e6a9c8",
-      "lightgrey",
+      "#d3d3d3",
     ],
   }),
   methods: {
-    setColor: function (color) {
-      alert(color);
+    setColor: function (colorValue) {
+      const data = {
+        color: colorValue,
+        noteIdList: [this.$props.cartId],
+      };
+      NoteService.changeColor(data)
+        .then(() => {
+          bus.$emit("updateNoteList",true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

@@ -20,7 +20,7 @@ export default {
       };
       NoteService.deleteNoteForever(note)
         .then(() => {
-          bus.$emit("updateNoteList");
+          bus.$emit("updateNoteList",true);
         })
         .catch((error) => {
           console.log(error);

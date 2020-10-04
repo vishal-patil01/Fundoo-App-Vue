@@ -21,7 +21,7 @@ export default {
       };
       NoteService.moveToArchive(trashData)
         .then(() => {
-          bus.$emit("updateNoteList");
+          bus.$emit("updateNoteList",true);
         })
         .catch((error) => {
           console.log(error);
