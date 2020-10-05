@@ -10,7 +10,8 @@
       v-for="note in notes"
       v-bind:key="note.id"
     >
-      <md-card :style="{'background-color':note.color}"
+      <md-card
+        :style="{ 'background-color': note.color }"
         :class="{ listLayout: listViewEnabled }"
         @click.native.self="edit(note)"
       >
@@ -161,16 +162,22 @@ export default {
     margin: 10px auto;
   }
 }
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
+  .notes-container {
+    justify-content: center;
+  }
   .listLayout {
     width: 60vw !important;
   }
 }
-@media (max-width: 550px) {
+@media (max-width: 650px) {
   .listLayout {
     flex-direction: row;
     align-items: flex-start;
     width: 230px !important;
+  }
+  .inner-container > .md-card {
+    width: 70vw;
   }
 }
 </style> 

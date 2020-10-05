@@ -67,7 +67,7 @@ export default {
             console.log(response);
             this.noteTitle = "";
             this.noteData = "";
-            bus.$emit("updateNoteList",true);
+            bus.$emit("updateNoteList", true);
           })
           .catch((error) => {
             console.log(error);
@@ -157,6 +157,11 @@ span {
 @media (max-width: 1000px) {
   .create-note {
     width: 60vw;
+  }
+}
+@media (max-width: 650px) {
+  .create-note {
+    width: 70vw;
   }
 }
 </style> 
