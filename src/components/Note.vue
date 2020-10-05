@@ -3,8 +3,8 @@
     <CreateNotes />
     <img
       v-if="!isDataLoaded"
-      height="100"
-      width="100"
+      height="200"
+      width="200"
       src="../assets/loader.gif"
     />
     <DisplayNotes v-if="isDataLoaded" :notes="filteredNotes" />
@@ -16,6 +16,7 @@ import DisplayNotes from "./DisplayNotes";
 import CreateNotes from "./CreateNotes";
 import NoteService from "../Services/NoteService";
 import { bus } from "../main";
+import SearchMixins from "../mixins/SearchMixins";
 
 export default {
   components: {
@@ -43,13 +44,7 @@ export default {
         });
     },
   },
-  computed: {
-    filteredNotes: function () {
-      return this.noteList.filter((note) => {
-        return note.title.toLowerCase().trim().match(this.searchedNotes);
-      });
-    },
-  },
+  mixins: [SearchMixins],
   mounted() {
     bus.$emit("clearSearch");
     this.getNotes();
