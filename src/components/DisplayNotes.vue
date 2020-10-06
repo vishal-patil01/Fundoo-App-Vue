@@ -143,11 +143,18 @@ export default {
   word-wrap: break-word;
 }
 .notebox-icons-container {
+  visibility: hidden;
   display: flex;
   flex-direction: row;
   width: -webkit-fill-available;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   margin: 5px 10px;
+}
+.inner-container > .md-card:hover .notebox-icons-container {
+  visibility: visible;
+}
+.notebook-icons {
+  margin: 0 10px;
 }
 .listLayout {
   display: flex;

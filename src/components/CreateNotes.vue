@@ -28,6 +28,16 @@
         </md-card>
       </div>
     </div>
+     <md-snackbar
+        md-position="left"
+        :md-active.sync="showSnackbar"
+        md-persistent
+      >
+        <span>Note Created Successfully!</span>
+        <md-button class="md-primary" @click="showSnackbar = false"
+          >x</md-button
+        >
+      </md-snackbar>
   </div>
 </template>
 
@@ -49,6 +59,7 @@ export default {
     isVisible: false,
     isArchived: false,
     color: "",
+    showSnackbar:false,
   }),
   methods: {
     createNote: function () {
@@ -68,6 +79,7 @@ export default {
             console.log(response);
             this.noteTitle = "";
             this.noteData = "";
+            this.showSnackbar=true;
             bus.$emit("updateNoteList", true);
           })
           .catch((error) => {
