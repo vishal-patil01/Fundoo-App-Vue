@@ -108,7 +108,7 @@ export default {
 }
 .inner-container {
   justify-content: center;
-  margin: 10px 10px;
+  margin: 10px 15px;
 }
 .inner-container > .md-card {
   display: flex;
@@ -120,7 +120,7 @@ export default {
   background-color: white;
   display: flex;
   justify-content: center;
-  width: 230px;
+  width: 240px;
   border: 1px solid transparent;
   border-color: #e0e0e0;
   box-shadow: none;
@@ -163,9 +163,6 @@ export default {
   }
 }
 @media (max-width: 1024px) {
-  .notes-container {
-    justify-content: center;
-  }
   .listLayout {
     width: 60vw !important;
   }

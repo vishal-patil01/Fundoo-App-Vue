@@ -1,11 +1,8 @@
 <template>
   <div class="container">
-    <img
-      v-if="!isDataLoaded"
-      height="200"
-      width="200"
-      src="../assets/loader.gif"
-    />
+    <div class="loader" v-if="!isDataLoaded">
+      <img height="200" width="200" src="../assets/loader.gif" />
+    </div>
     <DisplayNotes v-if="isDataLoaded" :notes="filteredNotes" trash="true" />
   </div>
 </template>
@@ -63,5 +60,10 @@ export default {
   align-items: center;
   justify-content: center;
   width: -webkit-fill-available;
+}
+.loader {
+  display: flex;
+  height: 55vh;
+  align-items: center;
 }
 </style>

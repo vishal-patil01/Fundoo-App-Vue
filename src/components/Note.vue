@@ -1,12 +1,13 @@
 <template>
   <div class="container">
     <CreateNotes />
+    <div class="loader" v-if="!isDataLoaded">
     <img
-      v-if="!isDataLoaded"
       height="200"
       width="200"
       src="../assets/loader.gif"
     />
+    </div>
     <DisplayNotes v-if="isDataLoaded" :notes="filteredNotes" />
   </div>
 </template>
@@ -67,5 +68,9 @@ export default {
   flex-direction: column;
   margin: 10px auto;
   width: -webkit-fill-available;
+}
+.loader{
+ @include flex-box;
+ height: 55vh;
 }
 </style> 

@@ -15,7 +15,6 @@ export default [
     {
         path: '/dashboard',
         component: DashBoard,
-        name: "note",
         children: [
             {
                 path: 'note',
