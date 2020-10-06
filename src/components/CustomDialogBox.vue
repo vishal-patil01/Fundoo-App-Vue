@@ -1,7 +1,7 @@
 <template>
   <md-dialog :md-active.sync="dialogShow" class="dialogbox">
-    <div class="note-container">
-      <md-card id="new-note">
+    <div class="note-container" :style="{ 'background-color': editingNote.color }">
+      <md-card id="new-note" :style="{ 'background-color': editingNote.color }">
         <md-field md-inline>
           <md-input v-model="editingNote.title" placeholder="Title" />
         </md-field>

@@ -298,17 +298,15 @@ ul > :not(.router-link-active) :hover {
 .searchDiv {
   margin: 10px 3vw;
   background-color: rgb(241, 243, 244);
-  border-radius: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 5px;
   width: fit-content;
   height: 50px;
 }
 .search {
   background-color: rgb(241, 243, 244) !important;
-  border-radius: 20px;
 }
 //searchicon
 .searchicon {
@@ -323,7 +321,6 @@ ul > :not(.router-link-active) :hover {
 }
 // search box radious and text color
 .md-toolbar .md-autocomplete.md-theme-default.md-autocomplete-box {
-  border-radius: 10px;
   width: 30vw;
   -webkit-text-fill-color: rgb(95, 99, 104) !important;
 }
@@ -416,7 +413,7 @@ ul > :not(.router-link-active) :hover {
     height: unset;
   }
   //App icon
-  img {
+  .appicon {
     width: 30px;
     height: 30px;
     padding: 0;

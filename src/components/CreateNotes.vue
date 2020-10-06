@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div class="create-note">
+    <div class="create-note" :style="{ 'background-color': color }">
       <div class="take-note" @click="createNote()">
         <div :class="{ hideDiv: isVisible }">
           <md-card id="title"> Take a note...</md-card>
         </div>
       </div>
       <div :class="{ hideDiv: !isVisible }">
-        <md-card id="new-note">
+        <md-card id="new-note" :style="{ 'background-color': color }">
           <md-field md-inline>
             <md-input v-model="noteTitle" placeholder="Title" />
           </md-field>
@@ -55,6 +55,7 @@ export default {
       this.isVisible = true;
     },
     closeCreateNote: function () {
+      this.color="#ffffff"
       const note = {
         title: this.noteTitle,
         description: this.noteData,
