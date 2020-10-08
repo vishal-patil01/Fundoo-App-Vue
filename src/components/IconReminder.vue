@@ -1,12 +1,21 @@
 <template>
-  <div class="delete" @click="DeleteForever()">
-    <md-icon>add_alert</md-icon>
+  <div class="reminder" @click="DeleteForever()">
+    <md-menu md-size="medium" md-align-trigger>
+      <md-button class="md-icon-button" md-menu-trigger>
+        <md-icon md-menu-trigger="true">add_alert</md-icon>
+      </md-button>
+      <md-menu-content>
+        <md-menu-item>My Item 1</md-menu-item>
+        <md-menu-item>My Item 2</md-menu-item>
+        <md-menu-item>My Item 3</md-menu-item>
+      </md-menu-content>
+    </md-menu>
   </div>
 </template>
 
 <script>
-import { bus } from "../main";
-import NoteService from "../Services/NoteService";
+// import { bus } from "../main";
+// import NoteService from "../Services/NoteService";
 
 export default {
   name: "IconReminder",
@@ -14,18 +23,7 @@ export default {
     cartId: String,
   },
   methods: {
-    DeleteForever: function () {
-      const note = {
-        noteIdList: [this.$props.cartId],
-      };
-      NoteService.deleteNoteForever(note)
-        .then(() => {
-          bus.$emit("updateNoteList",true);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    DeleteForever: function () {},
   },
 };
 </script>

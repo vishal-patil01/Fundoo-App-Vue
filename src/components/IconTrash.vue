@@ -1,6 +1,8 @@
 <template>
   <div class="delete" @click="moveToTrash()">
-    <md-icon>delete</md-icon>
+    <md-button class="md-icon-button">
+      <md-icon>delete</md-icon>
+    </md-button>
   </div>
 </template>
 
@@ -21,7 +23,7 @@ export default {
       };
       NoteService.moveToTrash(trashData)
         .then(() => {
-          bus.$emit("updateNoteList",true);
+          bus.$emit("updateNoteList", true);
         })
         .catch((error) => {
           console.log(error);

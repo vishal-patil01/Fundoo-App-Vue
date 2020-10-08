@@ -1,6 +1,9 @@
 <template>
   <div class="color-palette">
+        <md-button class="md-icon-button">
     <md-icon @click.native="itemSelected = !itemSelected">palette</md-icon>
+
+    </md-button>
     <div :class="{ 'dropdown-content': true, selected: itemSelected }">
       <div
         class="colorBall"

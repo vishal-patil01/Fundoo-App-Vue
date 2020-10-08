@@ -1,6 +1,8 @@
 <template>
   <div class="delete" @click="DeleteForever()">
-    <md-icon>delete_forever</md-icon>
+    <md-button class="md-icon-button">
+      <md-icon>delete_forever</md-icon>
+    </md-button>
   </div>
 </template>
 
@@ -20,7 +22,7 @@ export default {
       };
       NoteService.deleteNoteForever(note)
         .then(() => {
-          bus.$emit("updateNoteList",true);
+          bus.$emit("updateNoteList", true);
         })
         .catch((error) => {
           console.log(error);

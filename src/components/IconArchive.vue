@@ -1,6 +1,8 @@
 <template>
   <div class="archive" @click="moveToArchieve()">
-    <md-icon :class="{'selected':isSelected}">archive</md-icon>
+    <md-button class="md-icon-button">
+      <md-icon :class="{ selected: isSelected }">archive</md-icon>
+    </md-button>
   </div>
 </template>
 

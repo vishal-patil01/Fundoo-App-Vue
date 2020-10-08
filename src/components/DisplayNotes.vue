@@ -151,7 +151,6 @@ export default {
   visibility: hidden;
   display: flex;
   flex-direction: row;
-  width: -webkit-fill-available;
   justify-content: flex-start;
   margin: 5px 3px;
 }
@@ -159,7 +158,7 @@ export default {
   visibility: visible;
 }
 .notebook-icons {
-  margin: 0 10px;
+  margin:auto;
 }
 .listLayout {
   display: flex;
