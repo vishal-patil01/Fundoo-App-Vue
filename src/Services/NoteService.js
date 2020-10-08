@@ -27,6 +27,8 @@ export default {
     },
     changeColor(note){
         return httpservice.post('notes/changesColorNotes',note)
+    },
+    addReminder(note){
+        return httpservice.post('notes/addUpdateReminderNotes',note)
     }
-    
 }
