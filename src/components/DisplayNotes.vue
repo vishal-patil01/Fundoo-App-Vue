@@ -26,6 +26,9 @@
           <div v-if="trash" class="notebook-icons">
             <IconRestoreFromtrash :cartId="note.id" />
           </div>
+          <div v-if="!archive && !trash" class="notebook-icons">
+            <IconReminder :cartId="note.id" />
+          </div>
           <div v-if="!trash" class="notebook-icons">
             <IconColorPalette :cartId="note.id" />
           </div>
@@ -52,6 +55,7 @@ import IconTrash from "./IconTrash";
 import IconRestoreFromtrash from "./IconRestoreFromtrash";
 import IconDeleteForever from "./IconDeleteForever";
 import CustomDialogBox from "./CustomDialogBox";
+import IconReminder from "./IconReminder";
 import { bus } from "../main";
 
 export default {
@@ -68,6 +72,7 @@ export default {
     IconRestoreFromtrash,
     IconDeleteForever,
     CustomDialogBox,
+    IconReminder,
   },
   data: () => ({
     showDialog: false,
@@ -148,7 +153,7 @@ export default {
   flex-direction: row;
   width: -webkit-fill-available;
   justify-content: flex-start;
-  margin: 5px 10px;
+  margin: 5px 3px;
 }
 .inner-container > .md-card:hover .notebox-icons-container {
   visibility: visible;
